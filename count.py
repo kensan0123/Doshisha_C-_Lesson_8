@@ -31,9 +31,15 @@ def main() -> None:
     step = args.step
     limit = args.limit
 
-    print("Interactive counter")
-    print("Enter: increment | q: quit | r: reset | set N: set value | step N: change step")
-    print()
+    def show_help() -> None:
+        print("Interactive counter")
+        print(
+            "Enter: increment | q: quit | r: reset | -: decrement | "
+            "set N: set value | step N: change step | h: help"
+        )
+        print()
+
+    show_help()
 
     while True:
         print(f"count: {count}")
@@ -44,12 +50,16 @@ def main() -> None:
             if limit is not None and count > limit:
                 print(f"Reached limit {limit}. Bye.")
                 break
+        elif command == "-":
+            count -= step
         elif command.lower() == "q":
             print("Bye.")
             break
         elif command.lower() == "r":
             count = args.start
             step = args.step
+        elif command.lower() in {"h", "help", "?"}:
+            show_help()
         elif command.lower().startswith("set "):
             try:
                 count = int(command.split(maxsplit=1)[1])
